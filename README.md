@@ -1,16 +1,29 @@
-## Hi there 👋
+# Hi there, I'm Tien Dung 👋
 
-<!--
-**TienDungzz/TienDungzz** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+### 💻 Software Developer | Building things for the web
 
-Here are some ideas to get you started:
+I'm passionate about developing useful web applications, exploring new technologies, and improving my software engineering skills.
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+### 🛠️ Tech Stack
+
+**Languages:** JavaScript, TypeScript
+
+**Frontend:** React, HTML, CSS
+
+**Backend & Database:** Node.js, PostgreSQL
+
+**Tools:** Git, GitHub, VS Code
+
+### 🚀 Featured Projects
+
+- **Portfolio** — My personal developer portfolio
+- **Rubik** — A JavaScript-based project
+- **Koreanskincare-Enzo** — Web storefront project
+
+### 📫 Connect with me
+
+- Portfolio: [Add your website]
+- Email: [Add your public contact email]
+
+---
+⭐ Always learning, always building.
