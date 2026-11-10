@@ -1,5 +1,6 @@
 import { isObject, isText, requireValue, textArray, relativePath } from './utils.mjs';
 import { checkerDefinitions } from './registry.mjs';
+import { validateCssConfig } from './css-config.mjs';
 
 export function validateCheckSelection(checks) {
   if (checks === undefined) return;
@@ -80,7 +81,8 @@ function validateQualityConfig(quality) {
 
 const validators = {
   documentation: validateDocumentationConfig, structure: validateStructureConfig,
-  quality: validateQualityConfig, assets: validateAssetConfig, code: validateCodeConfig
+  quality: validateQualityConfig, assets: validateAssetConfig, code: validateCodeConfig,
+  css: validateCssConfig
 };
 
 export function validateConfig(config, sections = Object.keys(validators)) {
