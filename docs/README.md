@@ -12,6 +12,9 @@ Thư mục `docs/` chứa **bộ quy chuẩn** dùng làm tài liệu tham chi�
 | [Bảo mật](security/README.md) | Phân quyền, dữ liệu, secrets, kiểm tra lỗ hổng và ứng phó sự cố |
 | [Backend chịu tải và chống lạm dụng](backend/reliability.md) | Giới hạn request, timeout, cache, queue, backpressure và đo tải |
 | [Giao diện](ui/README.md) | BEM, design tokens, responsive, accessibility và các trạng thái UI |
+| [CSS variables](ui/css-variables.md) | File tổng, `var()` có fallback và checker CSS riêng |
+| [Dark / light mode](ui/theme.md) | Light/dark/system, khởi tạo, persistence và kiểm thử |
+| [Đa ngôn ngữ](frontend/i18n.md) | Catalog, locale/fallback, định dạng và RTL |
 | [3D trên web](3d/README.md) | Quy trình Blender → glTF/GLB, giới hạn asset và đo hiệu năng |
 | [Kiểm tra dự án](quality/README.md) | Cấu hình checker, quality gates, CI và giới hạn tự động hóa |
 | [Mẫu hồ sơ dự án](templates/project.md) | Khai báo stack, thành phần sử dụng và ngân sách riêng |
@@ -24,7 +27,7 @@ Thư mục `docs/` chứa **bộ quy chuẩn** dùng làm tài liệu tham chi�
 
 Chạy các lệnh dưới đây từ thư mục gốc repository, nơi chứa `package.json`.
 
-Cần Node.js 22.13+ thuộc nhánh 22 hoặc Node.js 24+. Script kiểm tra tĩnh chỉ dùng thư viện có sẵn của Node; chạy đầy đủ quality gates cần cài dev dependencies, gồm ESLint để kiểm tra giới hạn dòng của hàm.
+Cần Node.js 22.13+ thuộc nhánh 22 hoặc Node.js 24+. Các checker docs/cấu trúc/asset dùng thư viện có sẵn của Node; checker CSS dùng PostCSS và parser giá trị. Chạy `npm ci` để cài các parser cùng ESLint trước khi kiểm tra đầy đủ.
 
 ```sh
 npm ci
@@ -33,7 +36,7 @@ node scripts/check-project.mjs --run
 
 Lệnh trên điều phối các checker riêng để kiểm tra docs, cấu trúc, asset và quality gates. Tương đương `npm run check` sau khi cài dependencies. Dùng `npm run check:static` nếu chỉ muốn kiểm tra tĩnh; kết quả sẽ ghi rõ các quality gate chưa chạy.
 
-Chạy từng phần bằng `npm run check:config`, `npm run check:docs`, `npm run check:structure`, `npm run check:assets` hoặc `npm run check:quality`. Phần logic nằm trong các script tương ứng; `check-project.mjs` chỉ điều phối. Xem [các checker độc lập và cách chọn scope/gate](quality/README.md#các-checker-độc-lập).
+Chạy từng phần bằng `npm run check:config`, `npm run check:docs`, `npm run check:structure`, `npm run check:assets`, `npm run check:css` hoặc `npm run check:quality`. Phần logic nằm trong các script tương ứng; `check-project.mjs` chỉ điều phối. Xem [các checker độc lập và cách chọn scope/gate](quality/README.md#các-checker-độc-lập).
 
 Danh sách `checks` trong `project-standards.json` chọn các nhóm chạy tổng. Với từng checker được chọn, có file thì chạy, thiếu file thì báo `SKIP`; lỗi bên trong file đã có vẫn được báo lỗi.
 

@@ -17,10 +17,13 @@ docs/
 ├── README.md                 # Tổng quan và mục lục
 ├── getting-started.md        # Cách áp dụng quy chuẩn
 ├── frontend/README.md        # Kiến trúc và code phía client
+├── frontend/i18n.md          # Locale, catalog và kiểm thử đa ngôn ngữ
 ├── backend/README.md         # Kiến trúc và code phía server
 ├── backend/reliability.md    # Chịu tải, giới hạn request và phục hồi
 ├── security/README.md        # Bảo mật ứng dụng và vận hành
 ├── ui/README.md              # Giao diện, BEM, accessibility
+├── ui/css-variables.md       # Token CSS tập trung và fallback
+├── ui/theme.md               # Light/dark/system mode
 ├── 3d/README.md              # Asset và hiệu năng 3D
 ├── quality/README.md         # Kiểm tra tự động và thủ công
 └── templates/
@@ -51,6 +54,7 @@ project/
 │   ├── check-docs.mjs        # Tài liệu và liên kết
 │   ├── check-structure.mjs   # Cấu trúc, chọn scope theo dự án
 │   ├── check-assets.mjs      # Runtime 3D và budget
+│   ├── check-css.mjs         # CSS variables và fallback
 │   ├── check-quality.mjs     # Các gate, có thể chọn từng lệnh
 │   └── lib/                 # Config, context/report, CLI và filesystem
 ├── tests/                   # Kiểm thử, tách khỏi script thực thi
