@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "project": { "name": "Thay bằng tên dự án", "kind": "fullstack" },
+  "checks": ["docs", "structure", "assets", "quality"],
+  "documentation": {
+    "required": ["docs/README.md", "docs/getting-started.md", "docs/project.md", "docs/frontend/README.md", "docs/backend/README.md", "docs/backend/reliability.md", "docs/security/README.md", "docs/security-review.md", "docs/capacity.md", "docs/ui/README.md", "docs/3d/README.md", "docs/quality/README.md"],
+    "scan": ["docs"]
+  },
+  "structure": [
+    {
+      "name": "frontend",
+      "enabled": true,
+      "root": "apps/web/src",
+      "components": [
+        { "name": "routes", "paths": ["routes", "app", "router/index.ts"], "required": true },
+        { "name": "components", "paths": ["components", "shared/components"], "required": true },
+        { "name": "layouts", "paths": ["layouts", "app/layout.tsx"], "required": true },
+        { "name": "features", "paths": ["features"], "required": true },
+        { "name": "services", "paths": ["services", "shared/api"], "required": true },
+        { "name": "styles", "paths": ["styles", "app/globals.css"], "required": true },
+        { "name": "hooks-or-composables", "paths": ["hooks", "composables"], "required": false },
+        { "name": "helpers", "paths": ["helpers", "shared/helpers"], "required": false },
+        { "name": "state", "paths": ["stores", "state"], "required": false }
+      ]
+    },
+    {
+      "name": "backend",
+      "enabled": true,
+      "root": "apps/api/src",
+      "components": [
+        { "name": "routes-users", "paths": ["modules/users/routes", "modules/users/users.routes.ts"], "required": true },
+        { "name": "controllers-users", "paths": ["modules/users/controllers", "modules/users/users.controller.ts"], "required": true },
+        { "name": "services-users", "paths": ["modules/users/services", "modules/users/users.service.ts"], "required": true },
+        { "name": "validation-users", "paths": ["modules/users/validation", "modules/users/dto"], "required": true },
+        { "name": "repositories-users", "paths": ["modules/users/repositories", "modules/users/users.repository.ts"], "required": true },
+        { "name": "middlewares", "paths": ["middlewares"], "required": true },
+        { "name": "gateways", "paths": ["gateways", "adapters"], "required": false },
+        { "name": "config", "paths": ["config"], "required": true },
+        { "name": "authentication", "paths": ["security/authentication", "middlewares/authenticate.ts"], "required": true },
+        { "name": "authorization", "paths": ["security/authorization", "policies"], "required": true },
+        { "name": "request-limits", "paths": ["security/rate-limit", "middlewares/rate-limit.ts"], "required": true },
+        { "name": "admission-concurrency", "paths": ["resilience/concurrency", "middlewares/admission.ts"], "required": true },
+        { "name": "timeouts", "paths": ["resilience/timeouts", "middlewares/request-timeout.ts"], "required": true },
+        { "name": "health", "paths": ["health", "health.ts"], "required": true },
+        { "name": "cache", "paths": ["infrastructure/cache"], "required": false },
+        { "name": "queue", "paths": ["infrastructure/queue"], "required": false },
+        { "name": "workers", "paths": ["workers"], "required": false },
+        { "name": "observability", "paths": ["infrastructure/observability"], "required": false }
+      ]
+    },
+    {
+      "name": "backend-verification",
+      "enabled": true,
+      "root": "apps/api",
+      "components": [
+        { "name": "security-tests", "paths": ["tests/security", "tests/integration/security.test.ts"], "required": true },
+        { "name": "load-tests", "paths": ["tests/load"], "required": true }
+      ]
+    }
+  ],
+  "code": { "maxFunctionLines": 60 },
+  "quality": {
+    "required": ["lint", "typecheck", "test", "build", "unused", "gltf", "security-tests", "dependency-audit", "secret-scan", "sast", "load"],
+    "commands": {
+      "lint": "npm run lint",
+      "typecheck": "npm run typecheck",
+      "test": "npm run test:ci",
+      "build": "npm run build",
+      "unused": "npm run check:unused",
+      "gltf": "npm run check:gltf",
+      "security-tests": "npm run test:security",
+      "dependency-audit": "npm audit --audit-level=high",
+      "secret-scan": "npm run security:secrets",
+      "sast": "npm run security:sast",
+      "load": "npm run test:load:ci"
+    }
+  },
+  "assets": {
+    "enabled": true,
+    "roots": ["apps/web/public/models"],
+    "maxFileBytes": 5242880,
+    "maxTotalBytes": 15728640,
+    "allowedExtensions": [".glb", ".gltf", ".bin", ".png", ".jpg", ".jpeg", ".webp", ".ktx2"],
+    "forbiddenExtensions": [".blend", ".blend1", ".fbx", ".obj", ".psd", ".max", ".ma", ".mb"]
+  }
+}
