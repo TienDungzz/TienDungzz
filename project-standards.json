@@ -1,12 +1,13 @@
 {
   "version": 1,
   "project": { "name": "Quy chuẩn tài liệu dự án", "kind": "documentation" },
-  "checks": ["docs", "structure", "assets", "quality"],
+  "checks": ["docs", "structure", "assets", "css", "quality"],
   "documentation": {
     "required": [
       "docs/README.md", "docs/getting-started.md", "docs/frontend/README.md",
       "docs/backend/README.md", "docs/backend/reliability.md", "docs/security/README.md",
-      "docs/ui/README.md", "docs/3d/README.md",
+      "docs/ui/README.md", "docs/ui/css-variables.md", "docs/ui/theme.md",
+      "docs/frontend/i18n.md", "docs/3d/README.md",
       "docs/quality/README.md", "docs/templates/project.md",
       "docs/templates/review.md", "docs/templates/decision.md",
       "docs/templates/security.md", "docs/templates/capacity.md"
@@ -24,6 +25,7 @@
         { "name": "docs", "paths": ["check-docs.mjs"], "required": true },
         { "name": "structure", "paths": ["check-structure.mjs"], "required": true },
         { "name": "assets", "paths": ["check-assets.mjs"], "required": true },
+        { "name": "css", "paths": ["check-css.mjs"], "required": true },
         { "name": "quality", "paths": ["check-quality.mjs"], "required": true },
         { "name": "shared-library", "paths": ["lib"], "required": true }
       ]
@@ -35,16 +37,22 @@
       "components": [
         { "name": "orchestrator-tests", "paths": ["check-project.test.mjs"], "required": true },
         { "name": "independent-checker-tests", "paths": ["check-parts.test.mjs"], "required": true },
-        { "name": "function-length-tests", "paths": ["function-length.test.mjs"], "required": true }
+        { "name": "function-length-tests", "paths": ["function-length.test.mjs"], "required": true },
+        { "name": "css-tests", "paths": ["check-css.test.mjs"], "required": true }
       ]
     }
   ],
   "code": { "maxFunctionLines": 60 },
+  "css": {
+    "enabled": true,
+    "variablesFile": "examples/css/variables.css",
+    "roots": ["examples/css"]
+  },
   "quality": {
     "required": ["lint", "test"],
     "commands": {
       "lint": "npm run lint",
-      "test": "node --test tests/check-project.test.mjs tests/check-parts.test.mjs tests/function-length.test.mjs"
+      "test": "node --test tests/check-project.test.mjs tests/check-parts.test.mjs tests/function-length.test.mjs tests/check-css.test.mjs"
     }
   },
   "assets": {

@@ -1,9 +1,9 @@
 {
   "version": 1,
   "project": { "name": "Thay bằng tên dự án", "kind": "fullstack" },
-  "checks": ["docs", "structure", "assets", "quality"],
+  "checks": ["docs", "structure", "assets", "css", "quality"],
   "documentation": {
-    "required": ["docs/README.md", "docs/getting-started.md", "docs/project.md", "docs/frontend/README.md", "docs/backend/README.md", "docs/backend/reliability.md", "docs/security/README.md", "docs/security-review.md", "docs/capacity.md", "docs/ui/README.md", "docs/3d/README.md", "docs/quality/README.md"],
+    "required": ["docs/README.md", "docs/getting-started.md", "docs/project.md", "docs/frontend/README.md", "docs/frontend/i18n.md", "docs/backend/README.md", "docs/backend/reliability.md", "docs/security/README.md", "docs/security-review.md", "docs/capacity.md", "docs/ui/README.md", "docs/ui/css-variables.md", "docs/ui/theme.md", "docs/3d/README.md", "docs/quality/README.md"],
     "scan": ["docs"]
   },
   "structure": [
@@ -59,6 +59,11 @@
     }
   ],
   "code": { "maxFunctionLines": 60 },
+  "css": {
+    "enabled": true,
+    "variablesFile": "apps/web/src/styles/variables.css",
+    "roots": ["apps/web/src"]
+  },
   "quality": {
     "required": ["lint", "typecheck", "test", "build", "unused", "gltf", "security-tests", "dependency-audit", "secret-scan", "sast", "load"],
     "commands": {
