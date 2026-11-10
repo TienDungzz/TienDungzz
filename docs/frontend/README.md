@@ -98,6 +98,8 @@ Framework có server/client boundary phải giữ code database, secret và serv
 
 ## 5. Chất lượng và hiệu năng
 
+Khi có đa ngôn ngữ, áp dụng [quy chuẩn i18n](i18n.md) cho catalog, locale/fallback, format, SSR và accessibility. Styles dùng [CSS variables tập trung](../ui/css-variables.md); tính năng [dark/light/system](../ui/theme.md) có trạng thái, persistence và ma trận test riêng.
+
 - Function, component function, hook/composable, method và callback mặc định tối đa **60 dòng**, theo `code.maxFunctionLines`. Tính cả khai báo, dòng đóng, dòng trống/comment và phần JSX trong hàm; tách xử lý có trách nhiệm rõ ràng, không dồn code để lách rule. Xem [quy tắc và cách điều chỉnh](../quality/README.md#giới-hạn-dòng-của-hàm).
 - Mỗi route có trạng thái loading, empty, error và success phù hợp; tránh màn hình trống khi request thất bại.
 - Không còn import, biến, export, file, dependency và CSS không dùng trong phạm vi đã kiểm tra. Xóa code comment bỏ lại, log debug và file xuất thử trước merge.
