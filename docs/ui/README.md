@@ -4,7 +4,7 @@
 
 ## 1. Design tokens và component
 
-**Bắt buộc khi có giao diện:** định nghĩa nguồn giá trị dùng chung cho màu, typography, spacing, radius, shadow, z-index và breakpoint. Có thể dùng CSS custom properties, theme của UI library hoặc công cụ token hiện có; tránh thêm một hệ thống trùng lặp.
+**Bắt buộc khi có giao diện:** định nghĩa nguồn giá trị dùng chung cho màu, typography, spacing, radius, shadow, z-index và breakpoint. Khi dùng CSS custom properties, khai báo trong một file tổng `variables.css`; file CSS con dùng `var(--token, default)` và không tự khai báo lại biến. Nếu dùng theme của UI library hoặc công cụ token hiện có, ghi mapping và pipeline tương ứng; tránh thêm một hệ thống trùng lặp. CSS variables không thay thế breakpoint literal trong media query của CSS thông thường.
 
 ```css
 :root {
@@ -37,9 +37,9 @@ Dự án phải ghi rõ chiến lược CSS đang dùng. Chuẩn mặc định c
 ```
 
 ```css
-.product-card { background: var(--color-surface); }
-.product-card__title { color: var(--color-text); }
-.product-card--featured { border: 2px solid var(--color-action); }
+.product-card { background-color: var(--color-surface, #ffffff); }
+.product-card__title { color: var(--color-text, #172033); }
+.product-card--featured { border: 2px solid var(--color-action, #1d4ed8); }
 ```
 
 - Block là một đơn vị độc lập; element thuộc block, modifier biểu diễn biến thể hoặc trạng thái.
@@ -83,6 +83,12 @@ Vùng nhấn đạt ít nhất **24 × 24 CSS px** hoặc thỏa ngoại lệ c�
 
 ## 5. Hồ sơ bàn giao
 
+Các tính năng có hướng dẫn riêng:
+
+- [CSS variables và fallback](css-variables.md): file tổng, giới hạn checker, cấu hình và ví dụ chạy được.
+- [Dark / light / system mode](theme.md): token theo theme, persistence, SSR/first paint và accessibility.
+- [Đa ngôn ngữ](../frontend/i18n.md): catalog, locale/fallback, định dạng, RTL và ma trận kiểm thử.
+
 Lưu tại docs của dự án hoặc design system, liên kết từ hồ sơ dự án:
 
 1. Nguồn tokens và chiến lược CSS/BEM đã chọn.
@@ -95,6 +101,8 @@ Lưu tại docs của dự án hoặc design system, liên kết từ hồ sơ d
 
 - [ ] Component và style nằm đúng phạm vi; không còn CSS hoặc asset đã bỏ dùng theo công cụ và review.
 - [ ] Token được dùng thống nhất; variant và trạng thái lỗi/loading/empty đầy đủ.
+- [ ] CSS variables tập trung, mọi `var()` có fallback; checker CSS đạt trên source nằm trong phạm vi.
+- [ ] Khi có theme/i18n: light/dark/system, preference persistence và mọi locale được hỗ trợ đã được kiểm tra cùng nhau.
 - [ ] Không có lỗi layout tại các viewport đã chọn, nội dung dài và zoom 200%.
 - [ ] Luồng bị ảnh hưởng dùng được chỉ bằng bàn phím; focus và label đã kiểm tra.
 - [ ] Contrast và kích thước vùng nhấn được đo trên trạng thái thực tế.
