@@ -2,7 +2,7 @@
 
 ## Công cụ và lệnh chạy
 
-Bộ checker kiểm tra tĩnh dùng Node.js và không cần dependency ngoài. Mỗi phần có script và logic riêng, còn `check-project.mjs` điều phối kiểm tra tổng. Repo này dùng Node.js 22.13+ thuộc nhánh 22 hoặc Node.js 24+ và ESLint cho quality gate `lint`; chạy `npm ci` trước khi kiểm tra đầy đủ. Checker không sửa hoặc xóa source/asset. Các quality command của dự án có thể tạo output như build/coverage theo cấu hình công cụ của dự án.
+Các checker docs/cấu trúc/asset dùng thư viện Node.js có sẵn; checker CSS dùng PostCSS và parser giá trị. Mỗi phần có script và logic riêng, còn `check-project.mjs` điều phối kiểm tra tổng. Repo này dùng Node.js 22.13+ thuộc nhánh 22 hoặc Node.js 24+; chạy `npm ci` để cài parser CSS và ESLint trước khi kiểm tra đầy đủ. Checker không sửa hoặc xóa source/asset. Các quality command của dự án có thể tạo output như build/coverage theo cấu hình công cụ của dự án.
 
 ```sh
 # Kiểm tra tĩnh; quality commands được ghi rõ chưa chạy
@@ -36,24 +36,25 @@ CI phải dùng `--run`; chỉ chấp nhận `status: passed` khi phát hành. `
 | [check-docs.mjs](../../scripts/check-docs.mjs) | `npm run check:docs` | Tài liệu bắt buộc và liên kết Markdown nội bộ |
 | [check-structure.mjs](../../scripts/check-structure.mjs) | `npm run check:structure` | Thành phần có triển khai theo scope, hỗ trợ `--scope` |
 | [check-assets.mjs](../../scripts/check-assets.mjs) | `npm run check:assets` | Runtime 3D, ngân sách byte, GLB/glTF và dependency |
+| [check-css.mjs](../../scripts/check-css.mjs) | `npm run check:css` | File biến CSS tổng, tham chiếu `var()` có fallback và policy giá trị thiết kế |
 | [check-quality.mjs](../../scripts/check-quality.mjs) | `npm run check:quality` | Các command đã khai báo; lệnh npm này có `--run`, hỗ trợ `--gate` |
 | [check-project.mjs](../../scripts/check-project.mjs) | `npm run check` | Điều phối tất cả nhóm và chạy quality gates |
 
 `npm run check:static` chạy bộ điều phối không có `--run`, nên chỉ ghi nhận các quality command chưa thực thi. `npm run lint` kiểm tra mã JavaScript và giới hạn độ dài hàm riêng bằng ESLint.
 
-Các checker con đọc thông tin `version`/`project` chung và kiểm tra nhóm cấu hình liên quan: docs dùng `documentation`, cấu trúc dùng `structure`, asset dùng `assets`, quality dùng `quality` và `code`. Nhờ vậy, lỗi cấu hình asset không chặn việc chạy riêng phần docs. `check-config.mjs` kiểm tra toàn bộ cấu hình; bộ điều phối kiểm tra các nhóm tương ứng với checker được chọn và có file.
+Các checker con đọc thông tin `version`/`project` chung và kiểm tra nhóm cấu hình liên quan: docs dùng `documentation`, cấu trúc dùng `structure`, asset dùng `assets`, CSS dùng `css`, quality dùng `quality` và `code`. Nhờ vậy, lỗi cấu hình asset không chặn việc chạy riêng phần docs. `check-config.mjs` kiểm tra toàn bộ cấu hình; bộ điều phối kiểm tra các nhóm tương ứng với checker được chọn và có file.
 
 Chọn các checker mà bộ điều phối sẽ dùng trong `project-standards.json`:
 
 ```json
 {
-  "checks": ["docs", "structure", "assets", "quality"]
+  "checks": ["docs", "structure", "assets", "css", "quality"]
 }
 ```
 
-- `docs`, `structure`, `assets`, `quality` ánh xạ tới các file `check-*.mjs` trong bảng trên. Bỏ một tên khỏi danh sách để không nạp hoặc chạy checker đó.
+- `docs`, `structure`, `assets`, `css`, `quality` ánh xạ tới các file `check-*.mjs` trong bảng trên. Bỏ một tên khỏi danh sách để không nạp hoặc chạy checker đó.
 - Với mỗi checker được chọn: **có file thì chạy, không có file thì báo `SKIP`** và tiếp tục phần còn lại. File được tìm cạnh `check-project.mjs`, không phải tự tìm script trong thư mục dự án đích của `--root`.
-- Không khai báo `checks` thì mặc định chọn cả bốn nhóm. `checks: []` bỏ qua toàn bộ nhóm; report ghi rõ từng mục bỏ qua, không có nghĩa là dự án đã được kiểm chứng.
+- Không khai báo `checks` thì mặc định chọn tất cả nhóm trong registry. `checks: []` bỏ qua toàn bộ nhóm; report ghi rõ từng mục bỏ qua, không có nghĩa là dự án đã được kiểm chứng.
 - Tên sai, tên trùng hoặc kiểu dữ liệu không hợp lệ là lỗi cấu hình. File có mặt nhưng sai cú pháp, thiếu export/dependency hoặc xử lý thất bại vẫn báo lỗi; không biến các lỗi đó thành `SKIP`.
 
 Danh sách ánh xạ nằm trong `scripts/lib/registry.mjs`; loader nạp checker được chọn khi cần. Các module checker phải đồng bộ, không dùng top-level `await`, theo cơ chế [Node.js nạp ESM qua require](https://nodejs.org/docs/latest-v22.x/api/modules.html#loading-ecmascript-modules-using-require). Thư viện dùng chung `scripts/lib/` vẫn là thành phần bắt buộc.
@@ -65,9 +66,12 @@ scripts/
 ├── check-docs.mjs
 ├── check-structure.mjs
 ├── check-assets.mjs
+├── check-css.mjs
 ├── check-quality.mjs
 ├── lib/
 │   ├── config.mjs           # Validate cấu hình theo nhóm
+│   ├── css-config.mjs       # Validate profile CSS độc lập với parser
+│   ├── css-policy.mjs       # Phân tích giá trị, var() và token properties
 │   ├── context.mjs          # Đọc cấu hình, thu kết quả và tạo report
 │   ├── cli.mjs              # Parse tham số, help, JSON và exit code
 │   ├── registry.mjs         # Tên, file và nhóm cấu hình của checker
@@ -81,7 +85,8 @@ Các file kiểm thử của repo nằm riêng trong `tests/`:
 tests/
 ├── check-project.test.mjs   # Regression của bộ điều phối
 ├── check-parts.test.mjs     # Checker độc lập, lựa chọn và nạp file tùy chọn
-└── function-length.test.mjs # Quy tắc lint và giới hạn dòng hàm
+├── function-length.test.mjs # Quy tắc lint và giới hạn dòng hàm
+└── check-css.test.mjs       # Biến tổng, fallback, policy, cấu hình và CLI CSS
 ```
 
 Mỗi script nhận `--root`, `--config`, `--json` và `--help`. Chạy từ repo chuẩn để chọn một phần của dự án đích:
@@ -115,7 +120,7 @@ Xem [cấu hình repo tài liệu](../../project-standards.json) và [ví dụ f
 | --- | --- |
 | `version` | Số `1`, phiên bản định dạng checker |
 | `project.name`, `project.kind` | Chuỗi không rỗng; kind mô tả loại dự án, không tự suy ra đường dẫn hoặc gate |
-| `checks` | Tùy chọn; mảng tên duy nhất trong `docs`, `structure`, `assets`, `quality`. Bộ điều phối chạy file được chọn nếu có, thiếu file thì `SKIP` |
+| `checks` | Tùy chọn; mảng tên duy nhất trong `docs`, `structure`, `assets`, `css`, `quality`. Bộ điều phối chạy file được chọn nếu có, thiếu file thì `SKIP` |
 | `documentation.required` | Các file tài liệu bắt buộc, phải tồn tại và không rỗng |
 | `documentation.scan` | File/thư mục để tìm `.md` và kiểm tra liên kết nội bộ |
 | `structure` | Mảng phạm vi; repo tài liệu có thể dùng `[]` |
@@ -125,6 +130,11 @@ Xem [cấu hình repo tài liệu](../../project-standards.json) và [ví dụ f
 | `components[].paths` | Một hoặc nhiều đường dẫn thay thế cụ thể, tương đối với scope root; không hỗ trợ glob |
 | `components[].required` | `true` khi dùng; `false` cho thành phần chưa dùng. Nếu có đường dẫn nhưng chỉ là placeholder vẫn lỗi |
 | `code.maxFunctionLines` | Số nguyên dương an toàn, mặc định `60` nếu bỏ trống; công cụ lint của dự án phải đọc hoặc đồng bộ cùng giá trị |
+| `css.enabled` | Boolean; tắt cần `reason`. Không có nhóm `css` thì không áp dụng |
+| `css.variablesFile` | File `.css` tổng chứa giá trị token gốc và override, đường dẫn tương đối với root |
+| `css.roots` | File/thư mục source `.css` cần scan, mảng đường dẫn literal không rỗng |
+| `css.properties` | Tùy chọn; thay thế danh sách thuộc tính phải dùng design token |
+| `css.allowedValues` | Tùy chọn; thay thế danh sách keyword/giá trị nguyên tử được chấp nhận ngoài `var()` |
 | `quality.required` | Tên gate bắt buộc phải có trong `quality.commands` |
 | `quality.commands` | Object `tên: "shell command"`; tất cả command đều chạy khi có `--run` |
 | `assets.enabled` | Boolean; tắt cần `reason`; bật cần tất cả cấu hình budget bên dưới |
