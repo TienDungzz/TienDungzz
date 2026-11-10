@@ -18,6 +18,9 @@
 | Tải mục tiêu / burst / soak / phục hồi | Điền | Offered/achieved load, p95/p99, lỗi/reject, CPU/RAM/pool/queue và ngưỡng đã chốt |
 | Origin / proxy / cảnh báo / backup restore | Điền | Cấu hình triển khai, runbook và bằng chứng thử phục hồi |
 | UI responsive, keyboard, focus, states | Điền | Thiết bị / công cụ / review |
+| CSS variables / fallback | Điền | Checker CSS, file tổng, roots và phạm vi chưa scan |
+| Light / dark / system | Điền | OS/manual preference, reload/SSR, contrast, trạng thái tương tác |
+| i18n / locale × theme | Điền | Key/placeholder, fallback, format, long text/RTL và review bản dịch |
 | 3D bytes / glTF validation | Điền | Dung lượng runtime tree, validator report |
 | 3D triangles / draw calls / memory | Điền | Scene đo và phương pháp |
 | 3D FPS / frame time / load | Điền | Thiết bị thật, browser, mạng, lần cold/warm |

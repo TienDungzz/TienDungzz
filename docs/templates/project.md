@@ -35,6 +35,8 @@ Sao chép file này thành `docs/project.md` ở dự án đích và thay toàn 
 | Observability / health / edge config | Điền | Điền | Số đo, cảnh báo, readiness, proxy tin cậy và bảo vệ origin |
 | Security / load tests | Điền | Điền | Test quyền, limiter, lỗi phụ thuộc, ngưỡng tải |
 | UI styles / tokens | Điền | Điền | BEM / CSS Modules / utility; nêu lựa chọn |
+| CSS variables / theme | Điền | Điền | File tổng, roots CSS, thuộc tính kiểm tra, light/dark/system và persistence |
+| i18n / locales | Điền | Điền | Catalog, supported/default locale, fallback, namespace và formatter |
 | 3D source / runtime | Điền | art/; public/models/ | Chỉ export đã tối ưu được phát hành |
 
 ## Chất lượng và hiệu năng
@@ -45,6 +47,8 @@ Sao chép file này thành `docs/project.md` ở dự án đích và thay toàn 
 - Thiết bị / trình duyệt / mạng đích; ngân sách bundle, tải và phản hồi giao diện theo nhu cầu.
 - Nếu có 3D: maxFileBytes, maxTotalBytes, triangles/scene, draw calls, texture dimension/memory, mục tiêu frame time/FPS và bằng chứng trên thiết bị đích; tham chiếu `docs/3d/README.md` của dự án.
 - Các dịch vụ ngoài, timeout/retry, giới hạn request và xử lý khi dịch vụ lỗi.
+- CSS: `variablesFile`, `roots`, policy thuộc tính/giá trị và nguồn chưa có parser; theme: preference/resolved theme, first paint/SSR, contrast và fallback.
+- Đa ngôn ngữ: allowlist và thứ tự chọn locale, route/storage, fallback, time zone/currency, người review bản dịch; ma trận locale × theme, long text/RTL và test catalog.
 
 ## Bảo mật và năng lực backend
 
