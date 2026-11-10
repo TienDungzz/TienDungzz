@@ -11,6 +11,7 @@ import { checkRuntimeAssets } from '../scripts/check-assets.mjs';
 import { checkQualityGates } from '../scripts/check-quality.mjs';
 import { checkConfiguration } from '../scripts/check-config.mjs';
 import { checkProject } from '../scripts/check-project.mjs';
+import { checkerDefinitions } from '../scripts/lib/registry.mjs';
 
 function fixture(t, sections = {}) {
   const root = fs.mkdtempSync(path.join(tmpdir(), 'check-parts-test-'));
@@ -71,7 +72,7 @@ test('missing checker files are skipped with the default selection too', t => {
   const f = fixture(t, { documentation: { required: [], scan: [] } });
   const result = isolatedChecker(f, { 'check-docs.mjs': null })();
   assert.equal(result.exitCode, 0);
-  assert.equal(result.report.results.filter(entry => entry.check === 'checker' && entry.status === 'skip').length, 3);
+  assert.equal(result.report.results.filter(entry => entry.check === 'checker' && entry.status === 'skip').length, checkerDefinitions.length - 1);
 });
 
 test('unselected checker files are never loaded and unrelated config is not required', t => {
@@ -115,7 +116,7 @@ test('an explicitly empty selection skips all checker files', t => {
   const f = fixture(t, { checks: [] });
   const result = f.check(checkProject);
   assert.equal(result.exitCode, 0);
-  assert.equal(result.results.length, 4);
+  assert.equal(result.results.length, checkerDefinitions.length);
   assert.ok(result.results.every(entry => entry.check === 'checker' && entry.status === 'skip'));
 });
 
