@@ -13,11 +13,14 @@
     "check:docs": "node scripts/check-docs.mjs",
     "check:structure": "node scripts/check-structure.mjs",
     "check:assets": "node scripts/check-assets.mjs",
+    "check:css": "node scripts/check-css.mjs",
     "check:quality": "node scripts/check-quality.mjs --run",
     "lint": "eslint . --max-warnings 0",
-    "test": "node --test tests/check-project.test.mjs tests/check-parts.test.mjs tests/function-length.test.mjs"
+    "test": "node --test tests/check-project.test.mjs tests/check-parts.test.mjs tests/function-length.test.mjs tests/check-css.test.mjs"
   },
   "devDependencies": {
-    "eslint": "10.14.0"
+    "eslint": "10.14.0",
+    "postcss": "8.5.32",
+    "postcss-value-parser": "4.2.0"
   }
 }
