@@ -1,0 +1,29 @@
+:root {
+  color-scheme: light;
+  --color-surface: #ffffff;
+  --color-text: #172033;
+  --color-border: #cbd5e1;
+  --space-card: 1rem;
+  --radius-card: 0.5rem;
+}
+
+/* System mode only applies when the user has not selected light or dark. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
+    color-scheme: dark;
+    --color-surface: #111827;
+    --color-text: #f1f5f9;
+    --color-border: #64748b;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-surface: #111827;
+  --color-text: #f1f5f9;
+  --color-border: #64748b;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
